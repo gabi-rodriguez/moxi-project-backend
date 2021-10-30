@@ -20,17 +20,19 @@ public class MedicoController {
 	@Autowired
 	private MedicoService medicoService;
 	
+	@SuppressWarnings("rawtypes")
 	@GetMapping("/{id}")
-	public ResponseEntity<Medico> getMedicoInfo(@PathVariable(value = "id") long id) {
+	public ResponseEntity getMedicoInfo(@PathVariable(value = "id") long id) {
 		Medico medico = medicoService.getMedicoInfo(id);
 		if(medico != null) {
 			return ResponseEntity.ok(medico);
 		}
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Medico con ID " + id + " no encontrado.");
 	}
 	
+	@SuppressWarnings("rawtypes")
 	@PostMapping(value = "/alta", consumes = "application/json")
-	public ResponseEntity<String> createMedico(@RequestBody Medico medico) {
+	public ResponseEntity createMedico(@RequestBody Medico medico) {
 		Boolean medicoDadoDeAlta = medicoService.createMedico(medico);
 		if (medicoDadoDeAlta) {
 			return ResponseEntity.status(HttpStatus.OK).body(null);
