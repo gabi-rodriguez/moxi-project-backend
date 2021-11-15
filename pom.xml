@@ -15,7 +15,6 @@
 	<description>Backend del proyecto Moxi</description>
 	<properties>
 		<java.version>11</java.version>
-		<java.runtime.version>11.0.5</java.runtime.version>
 	</properties>
 	<dependencies>
 		<dependency>
