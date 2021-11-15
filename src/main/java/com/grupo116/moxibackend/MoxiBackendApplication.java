@@ -25,7 +25,7 @@ public class MoxiBackendApplication implements CommandLineRunner{
 		String password = "admin";
 		
 		String bcryptPassword = passwordEncoder.encode(password);
-		// System.out.println(bcryptPassword);
+	    System.out.println(bcryptPassword);
 	}
 	
 	@Bean
