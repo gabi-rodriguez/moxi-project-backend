@@ -10,4 +10,6 @@ public interface MoxiService {
 	public Boolean guardarDatosDeMoxi(DatosMoxi datos);
 	
 	public List<DatosMoxi> obtenerDatosMoxi(Long idPaciente, Date fechaDesde, Date fechaHasta);
+	
+	public Boolean esDireccionMacValida(String mac);
 }

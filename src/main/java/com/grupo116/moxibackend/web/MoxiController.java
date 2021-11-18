@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,7 +30,12 @@ public class MoxiController {
 
 	@SuppressWarnings("rawtypes")
 	@PostMapping(value = "/datos", consumes = "application/json")
-	public ResponseEntity addDatosMoxi(@RequestBody DatosMoxi datosMoxi) {
+	public ResponseEntity addDatosMoxi(@RequestBody DatosMoxi datosMoxi, @RequestHeader(name = "mac-address", required = false) String mac) {
+		
+		if (!moxiService.esDireccionMacValida(mac)) {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+		}
+		
 		Boolean datosGuardados = moxiService.guardarDatosDeMoxi(datosMoxi);
 		if (datosGuardados) {
 			return ResponseEntity.ok(null);
@@ -40,7 +46,6 @@ public class MoxiController {
 	@SuppressWarnings("rawtypes") //<---- esto se pone para
 	@GetMapping("/datos/{id}")
 	public ResponseEntity getDatosMoxiPorPacienteYFecha(@PathVariable(name = "id") Long id, @RequestParam(name = "desde", required = false) String fechaDesde, @RequestParam(value = "hasta", required = false) String fechaHasta) {
-		
 		
 		//VALIDACION DE FECHAS------------------------------------------
 		// Valido que venga OBLIGATORIAMENTE la fecha minima

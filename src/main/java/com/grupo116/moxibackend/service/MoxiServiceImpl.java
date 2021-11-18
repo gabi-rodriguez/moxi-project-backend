@@ -9,13 +9,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.grupo116.moxibackend.dao.DatosMoxiDao;
+import com.grupo116.moxibackend.dao.DispositivoMoxiDao;
 import com.grupo116.moxibackend.entity.DatosMoxi;
+import com.grupo116.moxibackend.entity.DispositivoMoxi;
 
 @Service
 public class MoxiServiceImpl implements MoxiService {
 	
 	@Autowired
 	private DatosMoxiDao datosDao;
+	
+	@Autowired
+	private DispositivoMoxiDao dispositivoMoxiDao;
 	
 	private static final Logger log = LogManager.getLogger(MoxiServiceImpl.class);
 
@@ -33,6 +38,17 @@ public class MoxiServiceImpl implements MoxiService {
 	@Override
 	public List<DatosMoxi> obtenerDatosMoxi(Long idPaciente, Date fechaDesde, Date fechaHasta) {
 		return datosDao.recuperarDatosPorPacienteYFechas(idPaciente, fechaDesde, fechaHasta);
+	}
+
+	@Override
+	public Boolean esDireccionMacValida(String mac) {
+		DispositivoMoxi moxi; 
+		
+		moxi = dispositivoMoxiDao.findByMac(mac);
+		if (moxi != null && mac.equals(moxi.getMac())) {
+			return true;
+		}
+		return false;
 	}
 
 }
